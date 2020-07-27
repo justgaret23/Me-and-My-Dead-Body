@@ -1,0 +1,34 @@
+﻿title: RouletteDealer
+tags:
+colorID: 0
+position: 23
+
+RouletteDealer: Fancy a game of roulette? Only 10 coins needed! #line roulette1
+
+[[Bet.|RouletteDealer.Accept]]
+
+[[Nah.|RouletteDealer.Decline]]
+
+===
+
+title: RouletteDealer.Accept
+tags:
+colorID: 0
+position: 24
+
+<<if $coins < 10>>
+    RouletteDealer: Ya got spirit, but not coins. Come back later. #line roulette2
+<<else>>
+
+<<endif>>
+===
+
+title: RouletteDealer.Decline
+tags:
+colorID: 0
+position: 25
+
+RouletteDealer: A shame. Come back if ya change your mind. #line roulette3
+
+
+===
