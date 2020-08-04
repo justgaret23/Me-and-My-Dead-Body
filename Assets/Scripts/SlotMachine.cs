@@ -30,6 +30,9 @@ public class SlotMachine : MonoBehaviour
     
     //Checks to see if player won
     private bool win;
+
+    //This slot machine will always win if true
+    public bool alwaysWin;
     
     //Slot ints
     public int slot1;
@@ -183,6 +186,11 @@ public class SlotMachine : MonoBehaviour
         slot1 = Random.Range(0, 6);
         slot2 = Random.Range(0, 6);
         slot3 = Random.Range(0, 6);
+
+        if(alwaysWin){
+            slot2 = slot1;
+            slot3 = slot1;
+        }
          
         //If all slots are equal to each other, return true
         return slot1 == slot2 && slot2 == slot3;
