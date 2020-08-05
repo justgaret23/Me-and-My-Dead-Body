@@ -78,8 +78,21 @@ public abstract class AI : MonoBehaviour
     public void PatrolRoute()
     {
         //If the current target is itself
-        if (currentSeek.position.Equals(this.gameObject.transform.position))
+
+        /* CODEBLOCK FOR LOOPING GUARD POINTS ~ Varun(Cashmere)
+         * 
+         * The issue was the source and destination were being compared using '==' which doesn't always work
+           due to floating point inaccuracies
+                                         
+            > To solve this, the bool function V3Equal(V3 a, V3b) compares for equality in squared magnitude to a precision of 0.0001
+            > Function V3Equal obtained from https://answers.unity.com/questions/395513/vector3-comparison-efficiency-and-float-precision.html
+            > What happens here is it squares the magnitudes of the V3's and takes their difference. If the difference is less than
+              0.0001, it returns true which loops the positions in the list.
+         */
+
+        if (V3Equal(currentSeek.position, this.gameObject.transform.position))
         {
+            
             //Delete the currentPOI
             patrolPOI.Remove(patrolPOI.Find(currentSeek).Value);
             
@@ -88,6 +101,7 @@ public abstract class AI : MonoBehaviour
             
             //Set currentSeek equal to the first value
             currentSeek = patrolPOI.First.Value;
+
         }
         
         //Set destination as currentSeek.position
@@ -96,7 +110,16 @@ public abstract class AI : MonoBehaviour
         //Set a transformation vector
         this.transform.position =
             Vector3.MoveTowards(this.transform.position, currentSeek.position, 5 * Time.deltaTime);
+
     }
+
+    // See PatrolRoute() for more information on V3Equal(V3 a, V3b)
+    
+    public bool V3Equal(Vector3 a, Vector3 b)
+    {
+        return Vector3.SqrMagnitude(a - b) < 0.0001;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         //If the collision of the AI overlaps with that of the player, player is detected
